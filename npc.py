@@ -5,7 +5,7 @@ from random import randint, random
 
 class NPC(AnimatedSprite):
     def __init__(self, game, path='resources/sprites/npc/soldier/0.png', pos=(10.5, 5.5),
-                 scale=0.6, shift=0.38, animation_time=180):
+                 scale=0.6, shift=0.38, animation_time=180, name='soldier'):
         super().__init__(game, path, pos, scale, shift, animation_time)
         self.attack_images = self.get_images(self.path + '/attack')
         self.death_images = self.get_images(self.path + '/death')
@@ -13,6 +13,7 @@ class NPC(AnimatedSprite):
         self.pain_images = self.get_images(self.path + '/pain')
         self.walk_images = self.get_images(self.path + '/walk')
 
+        self.name = name
         self.attack_dist = randint(5, 6)
         self.speed = 0.008
         self.size = 20
@@ -54,7 +55,10 @@ class NPC(AnimatedSprite):
     def attack(self):
         if self.animation_trigger == False:
           return
-        self.game.sound.npc_shot.play()
+        if self.name == 'cyber':
+          self.game.sound.rocket_shot.play()
+        else:
+          self.game.sound.npc_shot.play()
         if random() < self.accuracy and GOD_MODE == False:
           self.game.player.get_damage(self.attack_damage)
 
@@ -191,13 +195,14 @@ class NPC(AnimatedSprite):
 
 class SoldierNPC(NPC):
     def __init__(self, game, path='resources/sprites/npc/soldier/0.png', pos=(10.5, 5.5),
-                 scale=0.6, shift=0.38, animation_time=180):
-        super().__init__(game, path, pos, scale, shift, animation_time)
+                 scale=0.6, shift=0.38, animation_time=180, name='soldier'):
+        super().__init__(game, path, pos, scale, shift, animation_time, name)
 
 class CacoDemonNPC(NPC):
     def __init__(self, game, path='resources/sprites/npc/caco_demon/0.png', pos=(10.5, 6.5),
-                 scale=0.7, shift=0.27, animation_time=250):
+                 scale=0.7, shift=0.27, animation_time=250, name='demon'):
         super().__init__(game, path, pos, scale, shift, animation_time)
+        self.name = name
         self.attack_dist = 1.0
         self.health = 150
         self.attack_damage = 25
@@ -206,8 +211,9 @@ class CacoDemonNPC(NPC):
 
 class CyberDemonNPC(NPC):
     def __init__(self, game, path='resources/sprites/npc/cyber_demon/0.png', pos=(11.5, 6.0),
-                 scale=1.0, shift=0.04, animation_time=210):
+                 scale=1.0, shift=0.04, animation_time=210, name = 'cyber'):
         super().__init__(game, path, pos, scale, shift, animation_time)
+        self.name = name
         self.attack_dist = 6
         self.health = 350
         self.attack_damage = 15

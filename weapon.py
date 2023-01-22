@@ -14,15 +14,18 @@ class Weapon(AnimatedSprite):
         self.damage = 50
 
     def animate_shot(self):
-        if self.reloading:
-            self.game.player.shot = False
-            if self.animation_trigger:
-                self.images.rotate(-1)
-                self.image = self.images[0]
-                self.frame_counter += 1
-                if self.frame_counter == self.num_images:
-                    self.reloading = False
-                    self.frame_counter = 0
+        if not self.reloading:
+          return
+        self.game.player.shot = False
+        if not self.animation_trigger:
+          return
+        self.images.rotate(-1)
+        self.image = self.images[0]
+        self.frame_counter += 1
+        if self.frame_counter != self.num_images:
+          return
+        self.reloading = False
+        self.frame_counter = 0
 
     def draw(self):
         self.game.screen.blit(self.images[0], self.weapon_pos)
