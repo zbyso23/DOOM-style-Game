@@ -9,6 +9,7 @@ class Player:
         self.x, self.y = PLAYER_POS
         self.angle = PLAYER_ANGLE
         self.shot = False
+        self.run = False
         self.health = PLAYER_MAX_HEALTH
         self.rel = 0
         self.health_recovery_delay = 700
@@ -48,7 +49,8 @@ class Player:
         sin_a = math.sin(self.angle)
         cos_a = math.cos(self.angle)
         dx, dy = 0, 0
-        speed = PLAYER_SPEED * self.game.delta_time
+        player_speed = PLAYER_SPEED_WALK if self.run == False else PLAYER_SPEED_RUN
+        speed = player_speed * self.game.delta_time
         speed_sin = speed * sin_a
         speed_cos = speed * cos_a
 
@@ -65,6 +67,7 @@ class Player:
         if keys[pg.K_d]:
             dx += -speed_sin
             dy += speed_cos
+        self.run = True if keys[pg.K_LSHIFT] else False
 
         self.check_wall_collision(dx, dy)
 

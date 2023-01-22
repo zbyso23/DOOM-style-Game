@@ -19,6 +19,7 @@ class ObjectHandler:
         self.enemies = 20  # npc count
         self.npc_types = [SoldierNPC, CacoDemonNPC, CyberDemonNPC]
         self.weights = [70, 20, 10]
+
         self.restricted_area = {(i, j) for i in range(10) for j in range(10)}
         self.spawn_npc()
 

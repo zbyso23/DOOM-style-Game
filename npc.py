@@ -1,4 +1,5 @@
 from sprite_object import *
+from settings import GOD_MODE
 from random import randint, random
 
 
@@ -12,8 +13,8 @@ class NPC(AnimatedSprite):
         self.pain_images = self.get_images(self.path + '/pain')
         self.walk_images = self.get_images(self.path + '/walk')
 
-        self.attack_dist = randint(3, 6)
-        self.speed = 0.03
+        self.attack_dist = randint(5, 6)
+        self.speed = 0.008
         self.size = 20
         self.health = 100
         self.attack_damage = 10
@@ -51,17 +52,17 @@ class NPC(AnimatedSprite):
             self.check_wall_collision(dx, dy)
 
     def attack(self):
-        if self.animation_trigger:
-            self.game.sound.npc_shot.play()
-            if random() < self.accuracy:
-                self.game.player.get_damage(self.attack_damage)
+        if self.animation_trigger == False:
+          return
+        self.game.sound.npc_shot.play()
+        if random() < self.accuracy and GOD_MODE == False:
+          self.game.player.get_damage(self.attack_damage)
 
     def animate_death(self):
-        if not self.alive:
-            if self.game.global_trigger and self.frame_counter < len(self.death_images) - 1:
-                # self.death_images.rotate(-1)
-                self.image = self.death_images[self.frame_counter]
-                self.frame_counter += 1
+        if self.game.global_trigger == False or self.alive or self.frame_counter == len(self.death_images):
+          return
+        self.image = self.death_images[self.frame_counter]
+        self.frame_counter += 1
 
     def animate_pain(self):
         self.animate(self.pain_images)
@@ -69,46 +70,49 @@ class NPC(AnimatedSprite):
             self.pain = False
 
     def check_hit_in_npc(self):
-        if self.ray_cast_value and self.game.player.shot:
-            if HALF_WIDTH - self.sprite_half_width < self.screen_x < HALF_WIDTH + self.sprite_half_width:
-                self.game.sound.npc_pain.play()
-                self.game.player.shot = False
-                self.pain = True
-                self.health -= self.game.weapon.damage
-                self.check_health()
+        if not self.ray_cast_value or not self.game.player.shot:
+          return
+        if HALF_WIDTH - self.sprite_half_width < self.screen_x < HALF_WIDTH + self.sprite_half_width:
+            self.game.sound.npc_pain.play()
+            self.game.player.shot = False
+            self.pain = True
+            self.health -= self.game.weapon.damage
+            self.check_health()
 
     def check_health(self):
-        if self.health < 1:
-            self.alive = False
-            self.frame_counter = 0
-            self.game.sound.npc_death.play()
+        if self.health > 0:
+          return
+        self.alive = False
+        self.frame_counter = 0
+        self.game.sound.npc_death.play()
 
     def run_logic(self):
-        if self.alive:
-            self.ray_cast_value = self.ray_cast_player_npc()
-            self.check_hit_in_npc()
+        if not self.alive:
+          self.animate_death()
+          return
 
-            if self.pain:
-                self.animate_pain()
+        self.ray_cast_value = self.ray_cast_player_npc()
+        self.check_hit_in_npc()
 
-            elif self.ray_cast_value:
-                self.player_search_trigger = True
+        if self.pain:
+            self.animate_pain()
 
-                if self.dist < self.attack_dist:
-                    self.animate(self.attack_images)
-                    self.attack()
-                else:
-                    self.animate(self.walk_images)
-                    self.movement()
+        elif self.ray_cast_value:
+            self.player_search_trigger = True
 
-            elif self.player_search_trigger:
+            if self.dist < self.attack_dist:
+                self.animate(self.attack_images)
+                self.attack()
+            else:
                 self.animate(self.walk_images)
                 self.movement()
 
-            else:
-                self.animate(self.idle_images)
+        elif self.player_search_trigger:
+            self.animate(self.walk_images)
+            self.movement()
+
         else:
-            self.animate_death()
+            self.animate(self.idle_images)
 
     @property
     def map_pos(self):
@@ -197,7 +201,7 @@ class CacoDemonNPC(NPC):
         self.attack_dist = 1.0
         self.health = 150
         self.attack_damage = 25
-        self.speed = 0.05
+        self.speed = 0.02
         self.accuracy = 0.35
 
 class CyberDemonNPC(NPC):
@@ -207,7 +211,7 @@ class CyberDemonNPC(NPC):
         self.attack_dist = 6
         self.health = 350
         self.attack_damage = 15
-        self.speed = 0.055
+        self.speed = 0.005
         self.accuracy = 0.25
 
 
