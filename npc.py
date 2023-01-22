@@ -59,8 +59,8 @@ class NPC(AnimatedSprite):
     def animate_death(self):
         if not self.alive:
             if self.game.global_trigger and self.frame_counter < len(self.death_images) - 1:
-                self.death_images.rotate(-1)
-                self.image = self.death_images[0]
+                # self.death_images.rotate(-1)
+                self.image = self.death_images[self.frame_counter]
                 self.frame_counter += 1
 
     def animate_pain(self):
@@ -80,6 +80,7 @@ class NPC(AnimatedSprite):
     def check_health(self):
         if self.health < 1:
             self.alive = False
+            self.frame_counter = 0
             self.game.sound.npc_death.play()
 
     def run_logic(self):
