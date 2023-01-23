@@ -55,10 +55,19 @@ class NPC(AnimatedSprite):
     def attack(self):
         if self.animation_trigger == False:
           return
-        if self.name == 'cyber':
-          self.game.sound.rocket_shot.play()
-        else:
-          self.game.sound.npc_shot.play()
+        name = self.name
+        if name == 'dog':
+          self.game.sound.npc_dog_attack.play()
+        elif name == 'soldier':
+          self.game.sound.npc_soldier_attack.play()
+        elif name == 'officer':
+          self.game.sound.npc_officer_attack.play()
+        elif name == 'ss':
+          self.game.sound.npc_ss_attack.play()
+        elif name == 'doctor':
+          self.game.sound.npc_doctor_attack.play()
+        elif name == 'hitler2':
+          self.game.sound.npc_hitler2_attack.play()
         if random() < self.accuracy and GOD_MODE == False:
           self.game.player.get_damage(self.attack_damage)
 
@@ -77,18 +86,40 @@ class NPC(AnimatedSprite):
         if not self.ray_cast_value or not self.game.player.shot:
           return
         if HALF_WIDTH - self.sprite_half_width < self.screen_x < HALF_WIDTH + self.sprite_half_width:
-            self.game.sound.npc_pain.play()
-            self.game.player.shot = False
-            self.pain = True
-            self.health -= self.game.weapon.damage
-            self.check_health()
+          name = self.name
+          if name == 'soldier':
+            self.game.sound.npc_soldier_pain.play()
+          elif name == 'officer':
+            self.game.sound.npc_officer_pain.play()
+          elif name == 'ss':
+            self.game.sound.npc_ss_pain.play()
+          elif name == 'doctor':
+            self.game.sound.npc_doctor_pain.play()
+          elif name == 'hitler2':
+            self.game.sound.npc_hitler2_pain.play()
+          self.game.player.shot = False
+          self.pain = True
+          self.health -= self.game.weapon.damage
+          self.check_health()
 
     def check_health(self):
         if self.health > 0:
           return
         self.alive = False
         self.frame_counter = 0
-        self.game.sound.npc_death.play()
+        name = self.name
+        if name == 'dog':
+          self.game.sound.npc_dog_death.play()
+        elif name == 'soldier':
+          self.game.sound.npc_soldier_death.play()
+        elif name == 'officer':
+          self.game.sound.npc_officer_death.play()
+        elif name == 'ss':
+          self.game.sound.npc_ss_death.play()
+        elif name == 'doctor':
+          self.game.sound.npc_doctor_death.play()
+        elif name == 'hitler2':
+          self.game.sound.npc_hitler2_death.play()
 
     def run_logic(self):
         if not self.alive:
@@ -197,6 +228,24 @@ class SoldierNPC(NPC):
     def __init__(self, game, path='resources/sprites/npc/soldier/soldier_01.png', pos=(10.5, 5.5),
                  scale=1.0, shift=0, animation_time=200, name='soldier'):
         super().__init__(game, path, pos, scale, shift, animation_time, name)
+        self.name = name
+        self.attack_dist = randint(5, 6)
+        self.health = 100
+        self.attack_damage = 10
+        self.speed = 0.008
+        self.accuracy = 0.15
+
+
+class DogNPC(NPC):
+    def __init__(self, game, path='resources/sprites/npc/dog/dog_01.png', pos=(10.5, 5.5),
+                 scale=1.0, shift=0, animation_time=200, name='dog'):
+        super().__init__(game, path, pos, scale, shift, animation_time)
+        self.name = name
+        self.attack_dist = 1.0
+        self.health = 50
+        self.attack_damage = 5
+        self.speed = 0.03
+        self.accuracy = 0.45
 
 class SSNPC(NPC):
     def __init__(self, game, path='resources/sprites/npc/ss/ss_01.png', pos=(10.5, 5.5),
@@ -209,6 +258,17 @@ class SSNPC(NPC):
         self.speed = 0.02
         self.accuracy = 0.35
 
+class DoctorNPC(NPC):
+    def __init__(self, game, path='resources/sprites/npc/doctor/doctor_01.png', pos=(10.5, 5.5),
+                 scale=1.0, shift=0, animation_time=200, name='doctor'):
+        super().__init__(game, path, pos, scale, shift, animation_time)
+        self.name = name
+        self.attack_dist = 1.0
+        self.health = 200
+        self.attack_damage = 35
+        self.speed = 0.019
+        self.accuracy = 0.25
+
 class OfficerNPC(NPC):
     def __init__(self, game, path='resources/sprites/npc/officer/officer_01.png', pos=(10.5, 5.5),
                  scale=0.95, shift=0, animation_time=200, name = 'officer'):
@@ -220,6 +280,16 @@ class OfficerNPC(NPC):
         self.speed = 0.02
         self.accuracy = 0.25
 
+class Hitler2NPC(NPC):
+    def __init__(self, game, path='resources/sprites/npc/hitler2/hitler2_01.png', pos=(10.5, 5.5),
+                 scale=1.0, shift=0, animation_time=200, name='hitler2'):
+        super().__init__(game, path, pos, scale, shift, animation_time)
+        self.name = name
+        self.attack_dist = 6.0
+        self.health = 300
+        self.attack_damage = 45
+        self.speed = 0.02
+        self.accuracy = 0.35
 
 
 

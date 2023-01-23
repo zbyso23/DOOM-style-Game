@@ -16,9 +16,9 @@ class ObjectHandler:
         self.npc_positions = {}
 
         # spawn npc
-        self.enemies = 20  # npc count
-        self.npc_types = [SoldierNPC, OfficerNPC, SSNPC]
-        self.weights = [70, 20, 10]
+        self.enemies = 10  # npc count
+        self.npc_types = [SoldierNPC, DogNPC, OfficerNPC, SSNPC]
+        self.weights = [65, 15, 15, 5]
 
         self.restricted_area = {(i, j) for i in range(10) for j in range(10)}
         self.spawn_npc()
@@ -48,14 +48,8 @@ class ObjectHandler:
         add_sprite(AnimatedSprite(game, pos=(1.5, 24.5)))
 
         # npc map
-        # add_npc(SoldierNPC(game, pos=(11.0, 19.0)))
-        # add_npc(SoldierNPC(game, pos=(11.5, 4.5)))
-        # add_npc(SoldierNPC(game, pos=(13.5, 6.5)))
-        # add_npc(SoldierNPC(game, pos=(2.0, 20.0)))
-        # add_npc(SoldierNPC(game, pos=(4.0, 29.0)))
-        # add_npc(CacoDemonNPC(game, pos=(5.5, 14.5)))
-        # add_npc(CacoDemonNPC(game, pos=(5.5, 16.5)))
-        # add_npc(CyberDemonNPC(game, pos=(14.5, 25.5)))
+        add_npc(Hitler2NPC(game, pos=(1.5, 29.0)))
+        add_npc(DoctorNPC(game, pos=(4.5, 29.0)))
 
     def spawn_npc(self):
         # return
