@@ -17,7 +17,7 @@ class ObjectHandler:
 
         # spawn npc
         self.enemies = 20  # npc count
-        self.npc_types = [SoldierNPC, CacoDemonNPC, CyberDemonNPC]
+        self.npc_types = [SoldierNPC, OfficerNPC, SSNPC]
         self.weights = [70, 20, 10]
 
         self.restricted_area = {(i, j) for i in range(10) for j in range(10)}
@@ -58,6 +58,7 @@ class ObjectHandler:
         # add_npc(CyberDemonNPC(game, pos=(14.5, 25.5)))
 
     def spawn_npc(self):
+        # return
         for i in range(self.enemies):
                 npc = choices(self.npc_types, self.weights)[0]
                 pos = x, y = randrange(self.game.map.cols), randrange(self.game.map.rows)

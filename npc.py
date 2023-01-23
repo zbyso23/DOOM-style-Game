@@ -4,7 +4,7 @@ from random import randint, random
 
 
 class NPC(AnimatedSprite):
-    def __init__(self, game, path='resources/sprites/npc/soldier/0.png', pos=(10.5, 5.5),
+    def __init__(self, game, path, pos=(10.5, 5.5),
                  scale=0.6, shift=0.38, animation_time=180, name='soldier'):
         super().__init__(game, path, pos, scale, shift, animation_time)
         self.attack_images = self.get_images(self.path + '/attack')
@@ -194,30 +194,30 @@ class NPC(AnimatedSprite):
 
 
 class SoldierNPC(NPC):
-    def __init__(self, game, path='resources/sprites/npc/soldier/0.png', pos=(10.5, 5.5),
-                 scale=0.6, shift=0.38, animation_time=180, name='soldier'):
+    def __init__(self, game, path='resources/sprites/npc/soldier/soldier_01.png', pos=(10.5, 5.5),
+                 scale=1.0, shift=0, animation_time=200, name='soldier'):
         super().__init__(game, path, pos, scale, shift, animation_time, name)
 
-class CacoDemonNPC(NPC):
-    def __init__(self, game, path='resources/sprites/npc/caco_demon/0.png', pos=(10.5, 6.5),
-                 scale=0.7, shift=0.27, animation_time=250, name='demon'):
+class SSNPC(NPC):
+    def __init__(self, game, path='resources/sprites/npc/ss/ss_01.png', pos=(10.5, 5.5),
+                 scale=0.9, shift=0, animation_time=200, name='ss'):
         super().__init__(game, path, pos, scale, shift, animation_time)
         self.name = name
         self.attack_dist = 1.0
-        self.health = 150
+        self.health = 200
         self.attack_damage = 25
         self.speed = 0.02
         self.accuracy = 0.35
 
-class CyberDemonNPC(NPC):
-    def __init__(self, game, path='resources/sprites/npc/cyber_demon/0.png', pos=(11.5, 6.0),
-                 scale=1.0, shift=0.04, animation_time=210, name = 'cyber'):
+class OfficerNPC(NPC):
+    def __init__(self, game, path='resources/sprites/npc/officer/officer_01.png', pos=(10.5, 5.5),
+                 scale=0.95, shift=0, animation_time=200, name = 'officer'):
         super().__init__(game, path, pos, scale, shift, animation_time)
         self.name = name
-        self.attack_dist = 6
-        self.health = 350
-        self.attack_damage = 15
-        self.speed = 0.005
+        self.attack_dist = 2.0
+        self.health = 150
+        self.attack_damage = 20
+        self.speed = 0.02
         self.accuracy = 0.25
 
 
