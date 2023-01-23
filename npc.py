@@ -15,6 +15,7 @@ class NPC(AnimatedSprite):
 
         self.name = name
         self.attack_dist = randint(5, 6)
+        self.stalking_dist = randint(5, 6)
         self.speed = 0.008
         self.size = 20
         self.health = 100
@@ -42,7 +43,9 @@ class NPC(AnimatedSprite):
             self.y += dy
 
     def movement(self):
-        next_pos = self.game.pathfinding.get_path(self.map_pos, self.game.player.map_pos)
+        next_pos = self.game.pathfinding.get_path(self.map_pos, self.game.player.map_pos, self.stalking_dist)
+        if(next_pos == None):
+          return
         next_x, next_y = next_pos
 
         # pg.draw.rect(self.game.screen, 'blue', (100 * next_x, 100 * next_y, 100, 100))
@@ -137,6 +140,7 @@ class NPC(AnimatedSprite):
 
             if self.dist < self.attack_dist:
                 self.animate(self.attack_images)
+                self.stalking_dist = self.stalking_dist * 2 #After attack stalking for long distance
                 self.attack()
             else:
                 self.animate(self.walk_images)
@@ -226,69 +230,75 @@ class NPC(AnimatedSprite):
 
 class SoldierNPC(NPC):
     def __init__(self, game, path='resources/sprites/npc/soldier/soldier_01.png', pos=(10.5, 5.5),
-                 scale=1.0, shift=0, animation_time=200, name='soldier'):
+                 scale=1.0, shift=0, animation_time=320, name='soldier'):
         super().__init__(game, path, pos, scale, shift, animation_time, name)
         self.name = name
-        self.attack_dist = randint(5, 6)
+        self.stalking_dist = randint(50, 60)
+        self.attack_dist = randint(6, 8)
         self.health = 100
         self.attack_damage = 10
-        self.speed = 0.008
+        self.speed = 0.035
         self.accuracy = 0.15
 
 
 class DogNPC(NPC):
     def __init__(self, game, path='resources/sprites/npc/dog/dog_01.png', pos=(10.5, 5.5),
-                 scale=1.0, shift=0, animation_time=200, name='dog'):
+                 scale=1.0, shift=0, animation_time=320, name='dog'):
         super().__init__(game, path, pos, scale, shift, animation_time)
         self.name = name
+        self.stalking_dist = randint(90, 120)
         self.attack_dist = 1.0
         self.health = 50
         self.attack_damage = 5
-        self.speed = 0.03
+        self.speed = 0.04
         self.accuracy = 0.45
 
 class SSNPC(NPC):
     def __init__(self, game, path='resources/sprites/npc/ss/ss_01.png', pos=(10.5, 5.5),
-                 scale=0.9, shift=0, animation_time=200, name='ss'):
+                 scale=0.9, shift=0, animation_time=320, name='ss'):
         super().__init__(game, path, pos, scale, shift, animation_time)
         self.name = name
-        self.attack_dist = 1.0
+        self.stalking_dist = randint(70, 80)
+        self.attack_dist = 9.5
         self.health = 200
         self.attack_damage = 25
-        self.speed = 0.02
+        self.speed = 0.035
         self.accuracy = 0.35
 
 class DoctorNPC(NPC):
     def __init__(self, game, path='resources/sprites/npc/doctor/doctor_01.png', pos=(10.5, 5.5),
-                 scale=1.0, shift=0, animation_time=200, name='doctor'):
+                 scale=1.0, shift=0, animation_time=320, name='doctor'):
         super().__init__(game, path, pos, scale, shift, animation_time)
         self.name = name
-        self.attack_dist = 1.0
+        self.stalking_dist = randint(60, 70)
+        self.attack_dist = 10.0
         self.health = 200
         self.attack_damage = 35
-        self.speed = 0.019
+        self.speed = 0.035
         self.accuracy = 0.25
 
 class OfficerNPC(NPC):
     def __init__(self, game, path='resources/sprites/npc/officer/officer_01.png', pos=(10.5, 5.5),
-                 scale=0.95, shift=0, animation_time=200, name = 'officer'):
+                 scale=0.95, shift=0, animation_time=320, name = 'officer'):
         super().__init__(game, path, pos, scale, shift, animation_time)
         self.name = name
-        self.attack_dist = 2.0
+        self.stalking_dist = randint(60, 70)
+        self.attack_dist = 9.0
         self.health = 150
         self.attack_damage = 20
-        self.speed = 0.02
+        self.speed = 0.035
         self.accuracy = 0.25
 
 class Hitler2NPC(NPC):
     def __init__(self, game, path='resources/sprites/npc/hitler2/hitler2_01.png', pos=(10.5, 5.5),
-                 scale=1.0, shift=0, animation_time=200, name='hitler2'):
+                 scale=1.0, shift=0, animation_time=320, name='hitler2'):
         super().__init__(game, path, pos, scale, shift, animation_time)
         self.name = name
-        self.attack_dist = 6.0
+        self.stalking_dist = randint(20, 40)
+        self.attack_dist = 8.8
         self.health = 300
         self.attack_damage = 45
-        self.speed = 0.02
+        self.speed = 0.035
         self.accuracy = 0.35
 
 

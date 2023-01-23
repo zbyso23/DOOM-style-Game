@@ -9,8 +9,13 @@ class PathFinding:
         self.graph = {}
         self.get_graph()
 
-    def get_path(self, start, goal):
+    def get_path(self, start, goal, limit):
         self.visited = self.bfs(start, goal, self.graph)
+        # print('path')
+        # print(limit)
+        # print(len(self.visited))
+        if(len(self.visited) > limit):
+          return None
         path = [goal]
         step = self.visited.get(goal, start)
 
