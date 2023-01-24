@@ -1,4 +1,6 @@
 import pygame as pg
+import pyautogui as pag
+from os.path import exists
 import sys
 from settings import *
 from map import *
@@ -10,6 +12,7 @@ from object_handler import *
 from weapon import *
 from sound import *
 from pathfinding import *
+from config_file import load_config
 
 
 class Game:
@@ -69,5 +72,9 @@ class Game:
 
 
 if __name__ == '__main__':
+    res = load_config()
+    if(res['error']):
+      pag.alert(text=res['error_message'], title=TITLE)
+      sys.exit()
     game = Game()
     game.run()

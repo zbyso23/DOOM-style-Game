@@ -1,5 +1,9 @@
 import math
 
+TITLE = 'Inglourious Basterds 3D'
+VERSION = '0.1'
+CONFIG_PATH = './config.json'
+
 # game settings
 # RES = WIDTH, HEIGHT = 1024, 768
 RES = WIDTH, HEIGHT = 1920, 1080
