@@ -1,6 +1,7 @@
 import math
 
 TITLE = 'Inglourious Basterds 3D'
+TITLE_SETUP = 'Inglourious Basterds 3D Setup'
 VERSION = '0.1'
 CONFIG_PATH = './config.json'
 
