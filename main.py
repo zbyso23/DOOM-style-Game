@@ -76,5 +76,10 @@ if __name__ == '__main__':
     if(res['error']):
       pag.alert(text=res['error_message'], title=TITLE)
       sys.exit()
+
+    config = res['payload']
+    RES = (config['screen']['width'], config['screen']['height'])
+    FULLSCREEN = config['screen']['fullscreen']
+    GOD_MODE = config['cheats']['god_mode']
     game = Game()
     game.run()
