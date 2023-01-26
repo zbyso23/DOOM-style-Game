@@ -14,3 +14,15 @@ Control: 'WASD' + mouse
 [I Tried Making an FPS Game - ThreeJS](https://www.youtube.com/watch?v=3DMZETkPieI&ab_channel=SimonDev)
 
 ![doom](/sreenshots/0.gif)
+
+
+### Build - Pyinstaller
+
+#### Linux
+
+```
+source ./.venv/bin/activate
+pyinstaller --onefile main.py
+pyinstaller --onefile setup.py
+cp -R resources dist/
+```
