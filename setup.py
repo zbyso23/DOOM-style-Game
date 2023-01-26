@@ -11,6 +11,9 @@ from pygame_menu.examples import create_example_window
 WIDTH = 640
 HEIGHT = 480
 
+WIDTH_MIN = 800
+HEIGHT_MIN = 600
+
 config_default = {
   'screen': {
     'width': 1024,
@@ -22,6 +25,19 @@ config_default = {
   }
 }
 
+pg.init()
+
+def get_resolution_option(x):
+    name = str(x[0]) + " x " + str(x[1])
+    value = (name, { 'width': x[0], 'height': x[1] })
+    return value
+
+resolutions = pg.display.list_modes()
+resolutions = list(filter(lambda x: x[0] >= WIDTH_MIN and x[1] >= HEIGHT_MIN, resolutions))
+resolutions = list(map(get_resolution_option, resolutions))
+
+config_default['screen']['width'] = resolutions[0][1]['width']
+config_default['screen']['height'] = resolutions[0][1]['height']
 
 screen = create_example_window(TITLE_SETUP, (WIDTH, HEIGHT))
 engine = sound.Sound()
@@ -65,12 +81,7 @@ def menu_quit():
 
 menu = pgm.Menu('Setup', WIDTH, HEIGHT, theme=pgm.themes.THEME_BLUE)
 
-menu_control_resolution = menu.add.selector('Resolution: ', [
-  ('1024 x 768', { 'width': 1024, 'height': 768 }), 
-  ('1366 x 768', { 'width': 1366, 'height': 768 }), 
-  ('1680 x 1050', { 'width': 1680, 'height': 1050 }), 
-  ('1920 x 1680', { 'width': 1920, 'height': 1080 })
-  ], onchange=menu_set_resolution)
+menu_control_resolution = menu.add.selector('Resolution: ', resolutions, onchange=menu_set_resolution)
 menu_control_fullscreen = menu.add.selector('Fullscreen: ', [('Yes', True), ('No', False)], onchange=menu_set_fullscreen)
 menu_control_godmode = menu.add.selector('God mode: ', [('No', False), ('Yes', True)], onchange=menu_set_fullscreen)
 menu_control_save_config = menu.add.button('Save Config & Exit', menu_save_config)
