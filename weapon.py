@@ -7,7 +7,7 @@ class Weapon(AnimatedSprite):
         self.images = deque(
             [pg.transform.smoothscale(img, (self.image.get_width() * scale, self.image.get_height() * scale))
              for img in self.images])
-        self.weapon_pos = (HALF_WIDTH - self.images[0].get_width() // 2, HEIGHT - self.images[0].get_height())
+        self.weapon_pos = (self.settings.HALF_WIDTH - self.images[0].get_width() // 2, self.settings.HEIGHT - self.images[0].get_height())
         self.reloading = False
         self.num_images = len(self.images)
         self.frame_counter = 0

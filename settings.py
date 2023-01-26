@@ -5,44 +5,45 @@ TITLE_SETUP = 'Inglourious Basterds 3D Setup'
 VERSION = '0.1'
 CONFIG_PATH = './config.json'
 
-# game settings
-# RES = WIDTH, HEIGHT = 1024, 768
-RES = WIDTH, HEIGHT = 1920, 1080
+class Settings:
+    def __init__(self, config):
+      self.GOD_MODE = config['cheats']['god_mode']
+      self.FULLSCREEN = config['screen']['fullscreen']
 
-FULLSCREEN = True
-# FULLSCREEN = False
+      self.WIDTH = config['screen']['width']
+      self.HEIGHT = config['screen']['height']
+      self.RES = self.WIDTH, self.HEIGHT
 
-HALF_WIDTH = WIDTH // 2
-HALF_HEIGHT = HEIGHT // 2
-FPS = 0
+      self.HALF_WIDTH = self.WIDTH // 2
+      self.HALF_HEIGHT = self.HEIGHT // 2
+      self.FPS = 0
+      
+      self.MOUSE_BORDER_LEFT = 100
+      self.MOUSE_BORDER_RIGHT = self.WIDTH - self.MOUSE_BORDER_LEFT
 
-PLAYER_POS = 1.5, 5  # mini_map
-PLAYER_ANGLE = 0
-PLAYER_SPEED_WALK = 0.004
-PLAYER_SPEED_RUN = 0.009
-PLAYER_ROT_SPEED = 0.002
-PLAYER_SIZE_SCALE = 60
-PLAYER_MAX_HEALTH = 100
+      self.FOV = math.pi / 3
+      self.HALF_FOV = self.FOV / 2
+      self.NUM_RAYS = self.WIDTH // 2
+      self.HALF_NUM_RAYS = self.NUM_RAYS // 2
+      self.DELTA_ANGLE = self.FOV / self.NUM_RAYS
+      self.MAX_DEPTH = 20
 
-MOUSE_SENSITIVITY = 0.0003
-MOUSE_MAX_REL = 40
-MOUSE_BORDER_LEFT = 100
-MOUSE_BORDER_RIGHT = WIDTH - MOUSE_BORDER_LEFT
+      self.SCREEN_DIST = self.HALF_WIDTH / math.tan(self.HALF_FOV)
+      self.SCALE = self.WIDTH // self.NUM_RAYS
 
-FLOOR_COLOR = (30, 30, 30)
+      self.PLAYER_POS = 1.5, 5  # mini_map
+      self.PLAYER_ANGLE = 0
+      self.PLAYER_SPEED_WALK = 0.004
+      self.PLAYER_SPEED_RUN = 0.009
+      self.PLAYER_ROT_SPEED = 0.002
+      self.PLAYER_SIZE_SCALE = 60
+      self.PLAYER_MAX_HEALTH = 100
 
-FOV = math.pi / 3
-HALF_FOV = FOV / 2
-NUM_RAYS = WIDTH // 2
-HALF_NUM_RAYS = NUM_RAYS // 2
-DELTA_ANGLE = FOV / NUM_RAYS
-MAX_DEPTH = 20
+      self.MOUSE_SENSITIVITY = 0.0003
+      self.MOUSE_MAX_REL = 40
 
-SCREEN_DIST = HALF_WIDTH / math.tan(HALF_FOV)
-SCALE = WIDTH // NUM_RAYS
+      self.FLOOR_COLOR = (30, 30, 30)
 
-TEXTURE_SIZE = 512
-HALF_TEXTURE_SIZE = TEXTURE_SIZE // 2
+      self.TEXTURE_SIZE = 512
+      self.HALF_TEXTURE_SIZE = self.TEXTURE_SIZE // 2
 
-# GOD_MODE = True
-GOD_MODE = False

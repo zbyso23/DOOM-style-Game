@@ -16,10 +16,11 @@ from config_file import load_config
 
 
 class Game:
-    def __init__(self):
+    def __init__(self, settings):
         pg.init()
         pg.mouse.set_visible(False)
-        self.screen = pg.display.set_mode(RES, pg.FULLSCREEN if FULLSCREEN else 0)
+        self.settings = settings
+        self.screen = pg.display.set_mode(settings.RES, pg.FULLSCREEN if settings.FULLSCREEN else 0)
         self.clock = pg.time.Clock()
         self.delta_time = 1
         self.global_trigger = False
@@ -44,7 +45,7 @@ class Game:
         self.object_handler.update()
         self.weapon.update()
         pg.display.flip()
-        self.delta_time = self.clock.tick(FPS)
+        self.delta_time = self.clock.tick(settings.FPS)
         pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
 
     def draw(self):
@@ -78,8 +79,6 @@ if __name__ == '__main__':
       sys.exit()
 
     config = res['payload']
-    RES = (config['screen']['width'], config['screen']['height'])
-    FULLSCREEN = config['screen']['fullscreen']
-    GOD_MODE = config['cheats']['god_mode']
-    game = Game()
+    settings = Settings(config)
+    game = Game(settings)
     game.run()

@@ -1,5 +1,4 @@
 from sprite_object import *
-from settings import GOD_MODE
 from random import randint, random
 
 
@@ -71,7 +70,7 @@ class NPC(AnimatedSprite):
           self.game.sound.npc_doctor_attack.play()
         elif name == 'hitler2':
           self.game.sound.npc_hitler2_attack.play()
-        if random() < self.accuracy and GOD_MODE == False:
+        if random() < self.accuracy and self.settings.GOD_MODE == False:
           self.game.player.get_damage(self.attack_damage)
 
     def animate_death(self):
@@ -88,7 +87,7 @@ class NPC(AnimatedSprite):
     def check_hit_in_npc(self):
         if not self.ray_cast_value or not self.game.player.shot:
           return
-        if HALF_WIDTH - self.sprite_half_width < self.screen_x < HALF_WIDTH + self.sprite_half_width:
+        if self.settings.HALF_WIDTH - self.sprite_half_width < self.screen_x < self.settings.HALF_WIDTH + self.sprite_half_width:
           name = self.name
           if name == 'soldier':
             self.game.sound.npc_soldier_pain.play()
@@ -181,7 +180,7 @@ class NPC(AnimatedSprite):
         delta_depth = dy / sin_a
         dx = delta_depth * cos_a
 
-        for i in range(MAX_DEPTH):
+        for i in range(self.settings.MAX_DEPTH):
             tile_hor = int(x_hor), int(y_hor)
             if tile_hor == self.map_pos:
                 player_dist_h = depth_hor
@@ -202,7 +201,7 @@ class NPC(AnimatedSprite):
         delta_depth = dx / cos_a
         dy = delta_depth * sin_a
 
-        for i in range(MAX_DEPTH):
+        for i in range(self.settings.MAX_DEPTH):
             tile_vert = int(x_vert), int(y_vert)
             if tile_vert == self.map_pos:
                 player_dist_v = depth_vert
